@@ -1,6 +1,6 @@
 workflows:
-  trademe_android:
-    name: Trade Me v2 Android APK
+  trademe_android_royal:
+    name: Trade Me v2 — Royal AI Android
     max_build_duration: 60
     instance_type: mac_mini_m2
 
@@ -9,12 +9,25 @@ workflows:
 
     scripts:
 
-      - name: Create Android project
+      # ============================================================
+      # CREATE ANDROID PROJECT
+      # ============================================================
+      - name: Create Trade Me Android project
         script: |
           set -e
 
+          echo "========================================"
+          echo " Trade Me v2 — Royal Android Build"
+          echo "========================================"
+
           mkdir -p app/src/main/java/com/trademe/app
           mkdir -p app/src/main/res/values
+          mkdir -p app/src/main/res/drawable
+          mkdir -p app/src/main/res/mipmap-anydpi-v26
+
+          # --------------------------------------------------------
+          # SETTINGS
+          # --------------------------------------------------------
 
           cat > settings.gradle <<'EOF'
           pluginManagement {
@@ -27,45 +40,66 @@ workflows:
 
           dependencyResolutionManagement {
               repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+
               repositories {
                   google()
                   mavenCentral()
               }
           }
 
-          rootProject.name = 'TradeMeAndroid'
-          include ':app'
+          rootProject.name = "TradeMeAndroid"
+
+          include(":app")
           EOF
+
+          # --------------------------------------------------------
+          # ROOT BUILD
+          # --------------------------------------------------------
 
           cat > build.gradle <<'EOF'
           plugins {
-              id 'com.android.application' version '8.5.2' apply false
+              id "com.android.application" version "8.5.2" apply false
           }
           EOF
+
+          # --------------------------------------------------------
+          # GRADLE PROPERTIES
+          # --------------------------------------------------------
 
           cat > gradle.properties <<'EOF'
           org.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8
           android.useAndroidX=true
           EOF
 
+          # --------------------------------------------------------
+          # APP BUILD
+          # --------------------------------------------------------
+
           cat > app/build.gradle <<'EOF'
           plugins {
-              id 'com.android.application'
+              id "com.android.application"
           }
 
           android {
-              namespace 'com.trademe.app'
+              namespace "com.trademe.app"
+
               compileSdk 35
 
               defaultConfig {
-                  applicationId 'com.trademe.app'
+                  applicationId "com.trademe.app"
+
                   minSdk 26
                   targetSdk 35
-                  versionCode 1
-                  versionName '2.1.0'
+
+                  versionCode 2
+                  versionName "2.2.0"
               }
           }
           EOF
+
+          # --------------------------------------------------------
+          # APP NAME
+          # --------------------------------------------------------
 
           cat > app/src/main/res/values/strings.xml <<'EOF'
           <resources>
@@ -73,39 +107,192 @@ workflows:
           </resources>
           EOF
 
+          # --------------------------------------------------------
+          # ROYAL DARK / GOLD ANDROID THEME
+          # --------------------------------------------------------
+
           cat > app/src/main/res/values/styles.xml <<'EOF'
           <resources>
-              <style name="AppTheme"
+
+              <style
+                  name="AppTheme"
                   parent="android:style/Theme.Material.Light.NoActionBar">
+
                   <item name="android:fontFamily">sans</item>
+
                   <item name="android:windowActionModeOverlay">true</item>
-                  <item name="android:colorAccent">#1565C0</item>
-                  <item name="android:navigationBarColor">#000000</item>
-                  <item name="android:statusBarColor">#111111</item>
+
+                  <item name="android:colorAccent">#D4AF37</item>
+
+                  <item name="android:navigationBarColor">#050608</item>
+
+                  <item name="android:statusBarColor">#07080B</item>
+
                   <item name="android:windowLightStatusBar">false</item>
+
+                  <item name="android:windowLightNavigationBar">false</item>
+
+                  <item name="android:windowNoTitle">true</item>
+
+                  <item name="android:windowDisablePreview">true</item>
+
               </style>
+
           </resources>
           EOF
 
-          cat > app/src/main/AndroidManifest.xml <<'EOF'
-          <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+          # --------------------------------------------------------
+          # ROYAL GOLD CROWN ICON
+          # --------------------------------------------------------
 
-              <uses-permission android:name="android.permission.INTERNET" />
-              <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+          cat > app/src/main/res/drawable/trademe_icon.xml <<'EOF'
+          <vector
+              xmlns:android="http://schemas.android.com/apk/res/android"
+              android:width="108dp"
+              android:height="108dp"
+              android:viewportWidth="108"
+              android:viewportHeight="108">
+
+              <!-- Black luxury background -->
+              <path
+                  android:fillColor="#07080B"
+                  android:pathData="M0,0 L108,0 L108,108 L0,108 Z" />
+
+              <!-- Gold crown -->
+              <path
+                  android:fillColor="#D4AF37"
+                  android:pathData="
+                  M20,49
+                  L29,29
+                  L42,40
+                  L54,22
+                  L66,40
+                  L79,29
+                  L88,49
+                  L82,57
+                  L26,57
+                  Z" />
+
+              <!-- Crown highlight -->
+              <path
+                  android:fillColor="#F1D675"
+                  android:pathData="
+                  M26,57
+                  L82,57
+                  L77,65
+                  L31,65
+                  Z" />
+
+              <!-- TM mark -->
+              <path
+                  android:fillColor="#D4AF37"
+                  android:pathData="
+                  M31,72
+                  L48,72
+                  L48,76
+                  L42,76
+                  L42,92
+                  L37,92
+                  L37,76
+                  L31,76
+                  Z" />
+
+              <path
+                  android:fillColor="#D4AF37"
+                  android:pathData="
+                  M49,72
+                  L55,72
+                  L60,83
+                  L65,72
+                  L71,72
+                  L71,92
+                  L66,92
+                  L66,80
+                  L61,91
+                  L59,91
+                  L54,80
+                  L54,92
+                  L49,92
+                  Z" />
+
+              <!-- Gold accent -->
+              <path
+                  android:fillColor="#F7DF83"
+                  android:pathData="
+                  M52,98
+                  L56,98
+                  L56,102
+                  L52,102
+                  Z" />
+
+          </vector>
+          EOF
+
+          # --------------------------------------------------------
+          # ADAPTIVE LAUNCHER ICON
+          # --------------------------------------------------------
+
+          cat > app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml <<'EOF'
+          <?xml version="1.0" encoding="utf-8"?>
+
+          <adaptive-icon
+              xmlns:android="http://schemas.android.com/apk/res/android">
+
+              <background android:drawable="@color/launcher_black" />
+
+              <foreground android:drawable="@drawable/trademe_icon" />
+
+          </adaptive-icon>
+          EOF
+
+          # --------------------------------------------------------
+          # LAUNCHER COLOUR
+          # --------------------------------------------------------
+
+          mkdir -p app/src/main/res/values
+
+          cat > app/src/main/res/values/colors.xml <<'EOF'
+          <resources>
+              <color name="launcher_black">#07080B</color>
+          </resources>
+          EOF
+
+          # --------------------------------------------------------
+          # ANDROID MANIFEST
+          # --------------------------------------------------------
+
+          cat > app/src/main/AndroidManifest.xml <<'EOF'
+          <manifest
+              xmlns:android="http://schemas.android.com/apk/res/android">
+
+              <uses-permission
+                  android:name="android.permission.INTERNET" />
+
+              <uses-permission
+                  android:name="android.permission.POST_NOTIFICATIONS" />
 
               <application
                   android:allowBackup="false"
                   android:label="Trade Me"
+                  android:icon="@drawable/trademe_icon"
+                  android:roundIcon="@drawable/trademe_icon"
                   android:theme="@style/AppTheme"
-                  android:usesCleartextTraffic="true">
+                  android:usesCleartextTraffic="true"
+                  android:hardwareAccelerated="true">
 
                   <activity
                       android:name=".MainActivity"
-                      android:exported="true">
+                      android:exported="true"
+                      android:screenOrientation="portrait">
 
                       <intent-filter>
-                          <action android:name="android.intent.action.MAIN" />
-                          <category android:name="android.intent.category.LAUNCHER" />
+
+                          <action
+                              android:name="android.intent.action.MAIN" />
+
+                          <category
+                              android:name="android.intent.category.LAUNCHER" />
+
                       </intent-filter>
 
                   </activity>
@@ -115,6 +302,10 @@ workflows:
           </manifest>
           EOF
 
+          # --------------------------------------------------------
+          # MAIN ACTIVITY
+          # --------------------------------------------------------
+
           cat > app/src/main/java/com/trademe/app/MainActivity.java <<'EOF'
           package com.trademe.app;
 
@@ -122,6 +313,7 @@ workflows:
           import android.app.Activity;
           import android.content.Intent;
           import android.content.pm.PackageManager;
+          import android.graphics.Color;
           import android.net.Uri;
           import android.os.Build;
           import android.os.Bundle;
@@ -134,6 +326,13 @@ workflows:
 
           public class MainActivity extends Activity {
 
+              /*
+               * Trade Me v2 live server.
+               *
+               * The Android app is a secure client for the existing
+               * Trade Me system. The trading/analysis backend remains
+               * on the existing server.
+               */
               private static final String APP_URL =
                       "http://4.195.67.207:8765/";
 
@@ -141,68 +340,155 @@ workflows:
 
               @Override
               public void onCreate(Bundle savedInstanceState) {
+
                   super.onCreate(savedInstanceState);
 
+                  /*
+                   * Royal black Android chrome.
+                   */
+                  getWindow().setStatusBarColor(
+                          Color.rgb(7, 8, 11)
+                  );
+
+                  getWindow().setNavigationBarColor(
+                          Color.rgb(5, 6, 8)
+                  );
+
                   webView = new WebView(this);
+
+                  webView.setBackgroundColor(
+                          Color.rgb(7, 8, 11)
+                  );
+
                   setContentView(webView);
 
-                  WebSettings settings = webView.getSettings();
+                  WebSettings settings =
+                          webView.getSettings();
 
+                  /*
+                   * Modern WebView settings.
+                   */
                   settings.setJavaScriptEnabled(true);
+
                   settings.setDomStorageEnabled(true);
+
                   settings.setDatabaseEnabled(true);
+
                   settings.setLoadsImagesAutomatically(true);
-                  settings.setSupportZoom(false);
-                  settings.setBuiltInZoomControls(false);
-                  settings.setDisplayZoomControls(false);
+
                   settings.setMediaPlaybackRequiresUserGesture(false);
 
-                  webView.setWebChromeClient(new WebChromeClient());
+                  /*
+                   * IMPORTANT:
+                   * Prevent the dashboard from appearing
+                   * zoomed in on Android.
+                   */
+                  settings.setSupportZoom(false);
 
-                  webView.setWebViewClient(new WebViewClient() {
+                  settings.setBuiltInZoomControls(false);
 
-                      @Override
-                      public boolean shouldOverrideUrlLoading(
-                              WebView view,
-                              WebResourceRequest request) {
+                  settings.setDisplayZoomControls(false);
 
-                          Uri uri = request.getUrl();
+                  settings.setTextZoom(100);
 
-                          if (uri.getScheme() != null
-                                  && uri.getScheme().equals("http")
-                                  && uri.getHost() != null
-                                  && uri.getHost().equals("4.195.67.207")) {
+                  settings.setDefaultFontSize(16);
 
-                              return false;
-                          }
+                  settings.setDefaultFixedFontSize(13);
 
-                          try {
-                              startActivity(
-                                      new Intent(Intent.ACTION_VIEW, uri)
-                              );
-                          } catch (Exception ignored) {
-                          }
+                  /*
+                   * Make the website use the full phone width.
+                   */
+                  settings.setUseWideViewPort(true);
 
-                          return true;
-                      }
-                  });
+                  settings.setLoadWithOverviewMode(true);
+
+                  /*
+                   * Modern rendering.
+                   */
+                  settings.setMixedContentMode(
+                          android.webkit.WebSettings
+                                  .MIXED_CONTENT_COMPATIBILITY_MODE
+                  );
 
                   webView.setOverScrollMode(
                           View.OVER_SCROLL_NEVER
                   );
 
+                  webView.setVerticalScrollBarEnabled(false);
+
+                  webView.setHorizontalScrollBarEnabled(false);
+
+                  webView.setWebChromeClient(
+                          new WebChromeClient()
+                  );
+
+                  webView.setWebViewClient(
+                          new WebViewClient() {
+
+                              @Override
+                              public boolean shouldOverrideUrlLoading(
+                                      WebView view,
+                                      WebResourceRequest request) {
+
+                                  Uri uri =
+                                          request.getUrl();
+
+                                  /*
+                                   * Keep Trade Me traffic inside
+                                   * the application.
+                                   */
+                                  if (
+                                      uri.getScheme() != null
+                                      && uri.getScheme()
+                                          .equalsIgnoreCase("http")
+                                      && uri.getHost() != null
+                                      && uri.getHost()
+                                          .equals("4.195.67.207")
+                                  ) {
+
+                                      return false;
+                                  }
+
+                                  /*
+                                   * External links open normally.
+                                   */
+                                  try {
+
+                                      startActivity(
+                                          new Intent(
+                                              Intent.ACTION_VIEW,
+                                              uri
+                                          )
+                                      );
+
+                                  } catch (Exception ignored) {
+                                  }
+
+                                  return true;
+                              }
+                          }
+                  );
+
+                  /*
+                   * Load the existing Trade Me v2 system.
+                   */
                   webView.loadUrl(APP_URL);
 
-                  if (Build.VERSION.SDK_INT >= 33
-                          && checkSelfPermission(
+                  /*
+                   * Android 13+ notification permission.
+                   */
+                  if (
+                      Build.VERSION.SDK_INT >= 33
+                      && checkSelfPermission(
                           Manifest.permission.POST_NOTIFICATIONS
-                  ) != PackageManager.PERMISSION_GRANTED) {
+                      ) != PackageManager.PERMISSION_GRANTED
+                  ) {
 
                       requestPermissions(
-                              new String[]{
-                                      Manifest.permission.POST_NOTIFICATIONS
-                              },
-                              1001
+                          new String[] {
+                              Manifest.permission.POST_NOTIFICATIONS
+                          },
+                          1001
                       );
                   }
               }
@@ -210,32 +496,72 @@ workflows:
               @Override
               public void onBackPressed() {
 
-                  if (webView.canGoBack()) {
+                  if (webView != null
+                      && webView.canGoBack()) {
+
                       webView.goBack();
+
                   } else {
+
                       super.onBackPressed();
                   }
               }
           }
           EOF
 
+          echo ""
+          echo "Android project created."
+          echo "Royal theme installed."
+          echo "Zoom protection installed."
+          echo "Modern launcher icon installed."
+
+      # ============================================================
+      # GRADLE WRAPPER
+      # ============================================================
+
       - name: Create Gradle wrapper
         script: |
           set -e
+
+          echo "Checking Gradle..."
+
           gradle --version
+
+          echo "Creating Gradle 8.7 wrapper..."
+
           gradle wrapper \
             --gradle-version 8.7 \
             --distribution-type bin
 
-      - name: Build Trade Me APK
+      # ============================================================
+      # BUILD APK
+      # ============================================================
+
+      - name: Build Trade Me Royal APK
         script: |
           set -e
+
+          echo "========================================"
+          echo " Building Trade Me v2 Royal APK"
+          echo "========================================"
+
           chmod +x ./gradlew
 
           ./gradlew \
             assembleDebug \
             --no-daemon \
             --stacktrace
+
+          echo ""
+          echo "========================================"
+          echo " APK BUILD COMPLETE"
+          echo "========================================"
+
+          ls -lh app/build/outputs/apk/debug/
+
+    # ==============================================================
+    # APK OUTPUT
+    # ==============================================================
 
     artifacts:
       - app/build/outputs/apk/debug/*.apk
