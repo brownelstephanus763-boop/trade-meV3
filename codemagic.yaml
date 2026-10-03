@@ -10,24 +10,24 @@ workflows:
     scripts:
 
       # ============================================================
-      # CREATE ANDROID PROJECT
+      # CREATE TRADE ME ANDROID PROJECT
       # ============================================================
-      - name: Create Trade Me Android project
+
+      - name: Create Trade Me Royal Android project
         script: |
           set -e
 
-          echo "========================================"
-          echo " Trade Me v2 — Royal Android Build"
-          echo "========================================"
+          echo "=============================================="
+          echo "        TRADE ME v2 — ROYAL ANDROID"
+          echo "=============================================="
 
           mkdir -p app/src/main/java/com/trademe/app
           mkdir -p app/src/main/res/values
           mkdir -p app/src/main/res/drawable
-          mkdir -p app/src/main/res/mipmap-anydpi-v26
 
-          # --------------------------------------------------------
+          # ========================================================
           # SETTINGS
-          # --------------------------------------------------------
+          # ========================================================
 
           cat > settings.gradle <<'EOF'
           pluginManagement {
@@ -52,9 +52,9 @@ workflows:
           include(":app")
           EOF
 
-          # --------------------------------------------------------
+          # ========================================================
           # ROOT BUILD
-          # --------------------------------------------------------
+          # ========================================================
 
           cat > build.gradle <<'EOF'
           plugins {
@@ -62,18 +62,18 @@ workflows:
           }
           EOF
 
-          # --------------------------------------------------------
+          # ========================================================
           # GRADLE PROPERTIES
-          # --------------------------------------------------------
+          # ========================================================
 
           cat > gradle.properties <<'EOF'
           org.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8
           android.useAndroidX=true
           EOF
 
-          # --------------------------------------------------------
+          # ========================================================
           # APP BUILD
-          # --------------------------------------------------------
+          # ========================================================
 
           cat > app/build.gradle <<'EOF'
           plugins {
@@ -91,15 +91,15 @@ workflows:
                   minSdk 26
                   targetSdk 35
 
-                  versionCode 2
+                  versionCode 3
                   versionName "2.2.0"
               }
           }
           EOF
 
-          # --------------------------------------------------------
+          # ========================================================
           # APP NAME
-          # --------------------------------------------------------
+          # ========================================================
 
           cat > app/src/main/res/values/strings.xml <<'EOF'
           <resources>
@@ -107,9 +107,9 @@ workflows:
           </resources>
           EOF
 
-          # --------------------------------------------------------
-          # ROYAL DARK / GOLD ANDROID THEME
-          # --------------------------------------------------------
+          # ========================================================
+          # ROYAL THEME
+          # ========================================================
 
           cat > app/src/main/res/values/styles.xml <<'EOF'
           <resources>
@@ -124,10 +124,6 @@ workflows:
 
                   <item name="android:colorAccent">#D4AF37</item>
 
-                  <item name="android:navigationBarColor">#050608</item>
-
-                  <item name="android:statusBarColor">#07080B</item>
-
                   <item name="android:windowLightStatusBar">false</item>
 
                   <item name="android:windowLightNavigationBar">false</item>
@@ -136,14 +132,16 @@ workflows:
 
                   <item name="android:windowDisablePreview">true</item>
 
+                  <item name="android:windowBackground">#07080B</item>
+
               </style>
 
           </resources>
           EOF
 
-          # --------------------------------------------------------
-          # ROYAL GOLD CROWN ICON
-          # --------------------------------------------------------
+          # ========================================================
+          # ROYAL LAUNCHER ICON
+          # ========================================================
 
           cat > app/src/main/res/drawable/trademe_icon.xml <<'EOF'
           <vector
@@ -153,121 +151,85 @@ workflows:
               android:viewportWidth="108"
               android:viewportHeight="108">
 
-              <!-- Black luxury background -->
+              <!-- Luxury black background -->
               <path
                   android:fillColor="#07080B"
                   android:pathData="M0,0 L108,0 L108,108 L0,108 Z" />
 
-              <!-- Gold crown -->
+              <!-- Crown -->
               <path
                   android:fillColor="#D4AF37"
                   android:pathData="
-                  M20,49
-                  L29,29
+                  M18,50
+                  L28,28
                   L42,40
-                  L54,22
+                  L54,20
                   L66,40
-                  L79,29
-                  L88,49
-                  L82,57
-                  L26,57
+                  L80,28
+                  L90,50
+                  L83,59
+                  L25,59
                   Z" />
 
               <!-- Crown highlight -->
               <path
                   android:fillColor="#F1D675"
                   android:pathData="
-                  M26,57
-                  L82,57
-                  L77,65
-                  L31,65
+                  M25,59
+                  L83,59
+                  L77,66
+                  L31,66
                   Z" />
 
-              <!-- TM mark -->
+              <!-- T -->
               <path
                   android:fillColor="#D4AF37"
                   android:pathData="
-                  M31,72
-                  L48,72
-                  L48,76
-                  L42,76
-                  L42,92
-                  L37,92
-                  L37,76
-                  L31,76
+                  M28,73
+                  L47,73
+                  L47,78
+                  L41,78
+                  L41,94
+                  L35,94
+                  L35,78
+                  L28,78
                   Z" />
 
+              <!-- M -->
               <path
                   android:fillColor="#D4AF37"
                   android:pathData="
-                  M49,72
-                  L55,72
-                  L60,83
-                  L65,72
-                  L71,72
-                  L71,92
-                  L66,92
-                  L66,80
-                  L61,91
-                  L59,91
-                  L54,80
-                  L54,92
-                  L49,92
-                  Z" />
-
-              <!-- Gold accent -->
-              <path
-                  android:fillColor="#F7DF83"
-                  android:pathData="
-                  M52,98
-                  L56,98
-                  L56,102
-                  L52,102
+                  M50,73
+                  L57,73
+                  L61,84
+                  L65,73
+                  L72,73
+                  L72,94
+                  L66,94
+                  L66,81
+                  L62,92
+                  L59,92
+                  L55,81
+                  L55,94
+                  L50,94
                   Z" />
 
           </vector>
           EOF
 
-          # --------------------------------------------------------
-          # ADAPTIVE LAUNCHER ICON
-          # --------------------------------------------------------
-
-          cat > app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml <<'EOF'
-          <?xml version="1.0" encoding="utf-8"?>
-
-          <adaptive-icon
-              xmlns:android="http://schemas.android.com/apk/res/android">
-
-              <background android:drawable="@color/launcher_black" />
-
-              <foreground android:drawable="@drawable/trademe_icon" />
-
-          </adaptive-icon>
-          EOF
-
-          # --------------------------------------------------------
-          # LAUNCHER COLOUR
-          # --------------------------------------------------------
-
-          mkdir -p app/src/main/res/values
-
-          cat > app/src/main/res/values/colors.xml <<'EOF'
-          <resources>
-              <color name="launcher_black">#07080B</color>
-          </resources>
-          EOF
-
-          # --------------------------------------------------------
+          # ========================================================
           # ANDROID MANIFEST
-          # --------------------------------------------------------
+          # ========================================================
 
           cat > app/src/main/AndroidManifest.xml <<'EOF'
           <manifest
               xmlns:android="http://schemas.android.com/apk/res/android">
 
+              <!-- Network access required for Trade Me v2 -->
               <uses-permission
                   android:name="android.permission.INTERNET" />
 
+              <!-- Android 13+ notifications -->
               <uses-permission
                   android:name="android.permission.POST_NOTIFICATIONS" />
 
@@ -302,9 +264,9 @@ workflows:
           </manifest>
           EOF
 
-          # --------------------------------------------------------
+          # ========================================================
           # MAIN ACTIVITY
-          # --------------------------------------------------------
+          # ========================================================
 
           cat > app/src/main/java/com/trademe/app/MainActivity.java <<'EOF'
           package com.trademe.app;
@@ -318,25 +280,35 @@ workflows:
           import android.os.Build;
           import android.os.Bundle;
           import android.view.View;
+          import android.view.WindowInsets;
+          import android.webkit.CookieManager;
+          import android.webkit.SafeBrowsingResponse;
           import android.webkit.WebChromeClient;
           import android.webkit.WebResourceRequest;
           import android.webkit.WebSettings;
           import android.webkit.WebView;
           import android.webkit.WebViewClient;
+          import android.widget.FrameLayout;
 
           public class MainActivity extends Activity {
 
               /*
-               * Trade Me v2 live server.
+               * EXISTING LIVE TRADE ME v2 SERVER.
                *
-               * The Android app is a secure client for the existing
-               * Trade Me system. The trading/analysis backend remains
-               * on the existing server.
+               * The Android application is only the client.
+               * The existing analysis engine remains on the server.
+               *
+               * Execution remains disabled.
                */
               private static final String APP_URL =
                       "http://4.195.67.207:8765/";
 
+              private static final String TRADE_ME_HOST =
+                      "4.195.67.207";
+
               private WebView webView;
+
+              private FrameLayout root;
 
               @Override
               public void onCreate(Bundle savedInstanceState) {
@@ -344,14 +316,22 @@ workflows:
                   super.onCreate(savedInstanceState);
 
                   /*
-                   * Royal black Android chrome.
+                   * =================================================
+                   * ROOT CONTAINER
+                   * =================================================
+                   *
+                   * Android 15+ enforces edge-to-edge for apps
+                   * targeting SDK 35.
+                   *
+                   * We therefore handle the system-bar insets
+                   * ourselves instead of allowing the WebView to
+                   * disappear underneath them.
                    */
-                  getWindow().setStatusBarColor(
-                          Color.rgb(7, 8, 11)
-                  );
 
-                  getWindow().setNavigationBarColor(
-                          Color.rgb(5, 6, 8)
+                  root = new FrameLayout(this);
+
+                  root.setBackgroundColor(
+                          Color.rgb(7, 8, 11)
                   );
 
                   webView = new WebView(this);
@@ -360,14 +340,95 @@ workflows:
                           Color.rgb(7, 8, 11)
                   );
 
-                  setContentView(webView);
+                  FrameLayout.LayoutParams params =
+                          new FrameLayout.LayoutParams(
+                                  FrameLayout.LayoutParams.MATCH_PARENT,
+                                  FrameLayout.LayoutParams.MATCH_PARENT
+                          );
+
+                  root.addView(webView, params);
+
+                  /*
+                   * =================================================
+                   * SAFE AREA / WINDOW INSETS
+                   * =================================================
+                   */
+
+                  root.setOnApplyWindowInsetsListener(
+                          (view, insets) -> {
+
+                              if (Build.VERSION.SDK_INT >= 30) {
+
+                                  android.graphics.Insets bars =
+                                          insets.getInsets(
+                                                  WindowInsets.Type.systemBars()
+                                                          | WindowInsets.Type.displayCutout()
+                                          );
+
+                                  /*
+                                   * Push Trade Me below the status
+                                   * bar and above the navigation area.
+                                   */
+                                  view.setPadding(
+                                          bars.left,
+                                          bars.top,
+                                          bars.right,
+                                          bars.bottom
+                                  );
+
+                                  /*
+                                   * The parent handled the system
+                                   * bars, so prevent the WebView from
+                                   * applying the same inset again.
+                                   */
+                                  return new WindowInsets.Builder(
+                                          insets
+                                  ).setInsets(
+                                          WindowInsets.Type.systemBars()
+                                                  | WindowInsets.Type.displayCutout(),
+                                          android.graphics.Insets.NONE
+                                  ).build();
+
+                              } else {
+
+                                  /*
+                                   * Legacy Android handling.
+                                   */
+                                  int left =
+                                          insets.getSystemWindowInsetLeft();
+
+                                  int top =
+                                          insets.getSystemWindowInsetTop();
+
+                                  int right =
+                                          insets.getSystemWindowInsetRight();
+
+                                  int bottom =
+                                          insets.getSystemWindowInsetBottom();
+
+                                  view.setPadding(
+                                          left,
+                                          top,
+                                          right,
+                                          bottom
+                                  );
+
+                                  return insets.consumeSystemWindowInsets();
+                              }
+                          }
+                  );
+
+                  setContentView(root);
+
+                  /*
+                   * =================================================
+                   * WEBVIEW SETTINGS
+                   * =================================================
+                   */
 
                   WebSettings settings =
                           webView.getSettings();
 
-                  /*
-                   * Modern WebView settings.
-                   */
                   settings.setJavaScriptEnabled(true);
 
                   settings.setDomStorageEnabled(true);
@@ -376,13 +437,18 @@ workflows:
 
                   settings.setLoadsImagesAutomatically(true);
 
-                  settings.setMediaPlaybackRequiresUserGesture(false);
+                  settings.setMediaPlaybackRequiresUserGesture(
+                          false
+                  );
 
                   /*
-                   * IMPORTANT:
-                   * Prevent the dashboard from appearing
-                   * zoomed in on Android.
+                   * =================================================
+                   * ZOOM PROTECTION
+                   * =================================================
+                   *
+                   * Prevent the dashboard from appearing enlarged.
                    */
+
                   settings.setSupportZoom(false);
 
                   settings.setBuiltInZoomControls(false);
@@ -395,20 +461,75 @@ workflows:
 
                   settings.setDefaultFixedFontSize(13);
 
-                  /*
-                   * Make the website use the full phone width.
-                   */
                   settings.setUseWideViewPort(true);
 
                   settings.setLoadWithOverviewMode(true);
 
                   /*
-                   * Modern rendering.
+                   * =================================================
+                   * WEBVIEW SECURITY HARDENING
+                   * =================================================
+                   */
+
+                  /*
+                   * Trade Me does not need local file access.
+                   */
+                  settings.setAllowFileAccess(false);
+
+                  /*
+                   * Trade Me does not need arbitrary content-provider
+                   * access.
+                   */
+                  settings.setAllowContentAccess(false);
+
+                  /*
+                   * Do not allow a local file to reach arbitrary
+                   * network resources.
+                   */
+                  settings.setAllowFileAccessFromFileURLs(false);
+
+                  settings.setAllowUniversalAccessFromFileURLs(false);
+
+                  /*
+                   * Android Safe Browsing.
+                   */
+                  if (Build.VERSION.SDK_INT >= 26) {
+
+                      settings.setSafeBrowsingEnabled(true);
+                  }
+
+                  /*
+                   * Prevent third-party cookies.
+                   *
+                   * The Trade Me application does not require them.
+                   */
+                  CookieManager cookies =
+                          CookieManager.getInstance();
+
+                  cookies.setAcceptCookie(true);
+
+                  cookies.setAcceptThirdPartyCookies(
+                          webView,
+                          false
+                  );
+
+                  /*
+                   * Do not allow mixed HTTP/HTTPS content.
+                   *
+                   * The current Trade Me server itself is HTTP,
+                   * so this setting does not interfere with the
+                   * main page. It prevents the page from loading
+                   * arbitrary mixed-content resources.
                    */
                   settings.setMixedContentMode(
-                          android.webkit.WebSettings
-                                  .MIXED_CONTENT_COMPATIBILITY_MODE
+                          WebSettings.MIXED_CONTENT_NEVER_ALLOW
                   );
+
+                  /*
+                   * =================================================
+                   * SCROLLING
+                   * =================================================
+                   */
 
                   webView.setOverScrollMode(
                           View.OVER_SCROLL_NEVER
@@ -418,9 +539,21 @@ workflows:
 
                   webView.setHorizontalScrollBarEnabled(false);
 
+                  /*
+                   * =================================================
+                   * CHROME
+                   * =================================================
+                   */
+
                   webView.setWebChromeClient(
                           new WebChromeClient()
                   );
+
+                  /*
+                   * =================================================
+                   * NAVIGATION SECURITY
+                   * =================================================
+                   */
 
                   webView.setWebViewClient(
                           new WebViewClient() {
@@ -433,71 +566,117 @@ workflows:
                                   Uri uri =
                                           request.getUrl();
 
+                                  String scheme =
+                                          uri.getScheme();
+
+                                  String host =
+                                          uri.getHost();
+
                                   /*
-                                   * Keep Trade Me traffic inside
-                                   * the application.
+                                   * Keep ONLY the existing Trade Me
+                                   * server inside the application.
                                    */
                                   if (
-                                      uri.getScheme() != null
-                                      && uri.getScheme()
-                                          .equalsIgnoreCase("http")
-                                      && uri.getHost() != null
-                                      && uri.getHost()
-                                          .equals("4.195.67.207")
+                                      scheme != null
+                                      && scheme.equalsIgnoreCase("http")
+                                      && host != null
+                                      && host.equals(TRADE_ME_HOST)
                                   ) {
 
                                       return false;
                                   }
 
                                   /*
-                                   * External links open normally.
+                                   * Everything else opens externally.
                                    */
                                   try {
 
-                                      startActivity(
-                                          new Intent(
-                                              Intent.ACTION_VIEW,
-                                              uri
-                                          )
-                                      );
+                                      Intent external =
+                                              new Intent(
+                                                      Intent.ACTION_VIEW,
+                                                      uri
+                                              );
+
+                                      startActivity(external);
 
                                   } catch (Exception ignored) {
                                   }
 
                                   return true;
                               }
+
+                              /*
+                               * Safe Browsing handling.
+                               */
+                              @Override
+                              public void onSafeBrowsingHit(
+                                      WebView view,
+                                      WebResourceRequest request,
+                                      int threatType,
+                                      SafeBrowsingResponse callback) {
+
+                                  if (Build.VERSION.SDK_INT >= 27) {
+
+                                      callback.backToSafety(
+                                              true
+                                      );
+
+                                  } else {
+
+                                      super.onSafeBrowsingHit(
+                                              view,
+                                              request,
+                                              threatType,
+                                              callback
+                                      );
+                                  }
+                              }
                           }
                   );
 
                   /*
-                   * Load the existing Trade Me v2 system.
+                   * =================================================
+                   * LOAD EXISTING TRADE ME v2
+                   * =================================================
                    */
+
                   webView.loadUrl(APP_URL);
 
                   /*
-                   * Android 13+ notification permission.
+                   * =================================================
+                   * NOTIFICATION PERMISSION
+                   * =================================================
                    */
+
                   if (
                       Build.VERSION.SDK_INT >= 33
                       && checkSelfPermission(
-                          Manifest.permission.POST_NOTIFICATIONS
+                              Manifest.permission.POST_NOTIFICATIONS
                       ) != PackageManager.PERMISSION_GRANTED
                   ) {
 
                       requestPermissions(
-                          new String[] {
-                              Manifest.permission.POST_NOTIFICATIONS
-                          },
-                          1001
+                              new String[] {
+                                      Manifest.permission.POST_NOTIFICATIONS
+                              },
+                              1001
                       );
                   }
               }
 
+              /*
+               * =====================================================
+               * BACK BUTTON
+               * =====================================================
+               */
+
               @Override
               public void onBackPressed() {
 
-                  if (webView != null
-                      && webView.canGoBack()) {
+                  if (
+                      webView != null
+                      && webView.canGoBack()
+                  ) {
 
                       webView.goBack();
 
@@ -510,20 +689,23 @@ workflows:
           EOF
 
           echo ""
-          echo "Android project created."
-          echo "Royal theme installed."
-          echo "Zoom protection installed."
-          echo "Modern launcher icon installed."
+          echo "=============================================="
+          echo " Royal Android project created successfully."
+          echo " Edge-to-edge protection: ENABLED"
+          echo " Zoom protection: ENABLED"
+          echo " WebView hardening: ENABLED"
+          echo " Royal launcher icon: ENABLED"
+          echo "=============================================="
 
       # ============================================================
-      # GRADLE WRAPPER
+      # CREATE GRADLE WRAPPER
       # ============================================================
 
       - name: Create Gradle wrapper
         script: |
           set -e
 
-          echo "Checking Gradle..."
+          echo "Checking Gradle installation..."
 
           gradle --version
 
@@ -541,9 +723,9 @@ workflows:
         script: |
           set -e
 
-          echo "========================================"
+          echo "=============================================="
           echo " Building Trade Me v2 Royal APK"
-          echo "========================================"
+          echo "=============================================="
 
           chmod +x ./gradlew
 
@@ -553,14 +735,38 @@ workflows:
             --stacktrace
 
           echo ""
-          echo "========================================"
+          echo "=============================================="
           echo " APK BUILD COMPLETE"
-          echo "========================================"
+          echo "=============================================="
 
           ls -lh app/build/outputs/apk/debug/
 
+      # ============================================================
+      # FINAL VALIDATION
+      # ============================================================
+
+      - name: Validate APK output
+        script: |
+          set -e
+
+          APK_COUNT=$(find app/build/outputs/apk/debug \
+            -maxdepth 1 \
+            -name "*.apk" \
+            | wc -l)
+
+          if [ "$APK_COUNT" -lt 1 ]; then
+              echo "ERROR: APK was not generated."
+              exit 1
+          fi
+
+          echo "APK validation passed."
+          find app/build/outputs/apk/debug \
+            -maxdepth 1 \
+            -name "*.apk" \
+            -print
+
     # ==============================================================
-    # APK OUTPUT
+    # CODemagic ARTIFACT
     # ==============================================================
 
     artifacts:
